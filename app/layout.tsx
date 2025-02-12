@@ -2,6 +2,8 @@ import "./globals.css"
 import { Inter } from "next/font/google"
 import localFont from "next/font/local"
 import type React from "react"
+import { Analytics } from '@vercel/analytics/react'
+import { AOSProvider } from "@/components/providers/aos-provider"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,8 +38,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className={`${inter.variable} ${cabinet.variable}`}>
-      <body className="min-h-screen bg-background font-sans">{children}</body>
+    <html lang="es" className={`${inter.variable} ${cabinet.variable} smooth-scroll`}>
+      <body className="min-h-screen bg-background font-sans">
+        <AOSProvider>
+          {children}
+        </AOSProvider>
+        <Analytics />
+      </body>
     </html>
   )
 }

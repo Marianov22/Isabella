@@ -1,11 +1,26 @@
+"use client"
 import Image from "next/image"
 import { ClientButton } from "@/components/ui/client-button"
 import { Instagram, Linkedin, MessageSquare, Palette, Camera, Target, Globe } from "lucide-react"
 import { ContactButton } from "@/components/ui/contact-button"
+import { motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
+import { GlassCard } from "@/components/ui/glass-card"
+import { AnimatedButton } from "@/components/ui/animated-button"
+import { fadeIn, staggerContainer } from "@/lib/animations"
 
 export default function Home() {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  })
+
   return (
-    <div className="min-h-screen bg-background">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      className="min-h-screen bg-background"
+    >
       {/* Announcement Bar */}
       <div className="bg-primary text-white py-2 text-center text-xs sm:text-sm animate-fadeIn">
         INNOVACIÓN DIGITAL A TU ALCANCE
@@ -13,6 +28,16 @@ export default function Home() {
 
       {/* Navigation */}
       <nav className="container mx-auto flex flex-col sm:flex-row items-center justify-between p-6">
+        <div className="flex items-center gap-4">
+          <Image 
+            src="/logo.png" 
+            alt="TrashPanda Logo" 
+            width={40} 
+            height={40}
+            className="animate-float"
+          />
+          <span className="font-display font-bold text-xl text-primary">TrashPanda</span>
+        </div>
         <div className="flex flex-wrap justify-center sm:justify-start gap-6 mb-4 sm:mb-0">
           {["INICIO", "SERVICIOS", "PORTAFOLIO", "BLOG", "CONTACTO"].map((item, index) => (
             <a
@@ -62,13 +87,21 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="container mx-auto mt-8 sm:mt-16 px-6">
-        <div className="bg-secondary rounded-3xl p-8 sm:p-12">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-8">
-            <div className="max-w-2xl animate-fadeIn text-center sm:text-left">
+        <GlassCard className="p-8 sm:p-12">
+          <motion.div
+            variants={staggerContainer}
+            className="flex flex-col sm:flex-row items-center justify-between gap-8"
+          >
+            <motion.div
+              variants={fadeIn}
+              className="max-w-2xl text-center sm:text-left"
+            >
               <h1 className="mb-6 font-display text-4xl sm:text-6xl font-bold">
-                <span className="text-primary">Impulsá tu negocio,</span>
-                <br />
-                <span className="text-white">sin chamuyo</span>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary to-primary-dark">
+                  Impulsá tu negocio,
+                  <br />
+                  sin chamuyo
+                </span>
               </h1>
               <p className="mb-8 text-lg sm:text-xl text-primary-dark">
                 Estrategia y creatividad hechos a tu medida.
@@ -76,13 +109,19 @@ export default function Home() {
               <ClientButton className="bg-[#7A8B69] text-white hover:bg-primary-dark shadow-retro font-display text-lg">
                 Descubrinos
               </ClientButton>
-            </div>
+            </motion.div>
 
             <div className="relative h-64 w-64 sm:h-96 sm:w-96">
-              <div className="w-full h-full rounded-2xl bg-accent shadow-retro"></div>
+              <Image
+                src="/gatito.jpg"
+                alt="Hero Image"
+                fill
+                className="object-cover rounded-2xl shadow-retro"
+                priority
+              />
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </GlassCard>
       </section>
 
       {/* Services Section */}
@@ -90,47 +129,84 @@ export default function Home() {
         <h2 className="mb-12 text-center font-display text-3xl sm:text-4xl font-bold text-primary animate-fadeIn">
           Nuestros Servicios
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center max-w-6xl mx-auto">
+          {/* Primera fila: 3 tarjetas */}
           {[
             {
               title: "Estrategias de comunicación",
               icon: MessageSquare,
               description: "Diseñamos planes efectivos para que tu marca diga lo que realmente le importa al target.",
+              image: "/gatito.jpg"
             },
             {
               title: "Branding",
               icon: Palette,
-              description: "Naming, identidad visual y posicionamiento para que destaques en cualquier plataforma.",
+              description: "Creamos identidades que conectan con tu audiencia y destacan en el mercado.",
+              image: "/gatito.jpg"
             },
             {
-              title: "Generación de contenido",
+              title: "Contenido",
               icon: Camera,
-              description: "Fotos, videos, copywriting y todo lo que necesitas para conectar con tu audiencia.",
-            },
-            {
-              title: "Gestión de Ads",
-              icon: Target,
-              description:
-                "Campañas, influencers y medios. Creatividad de impacto aplicada al mundo digital y offline.",
-              className: "lg:col-start-2", // Add this to center the card
-            },
-            {
-              title: "Desarrollo Web",
-              icon: Globe,
-              description:
-                "Diseñamos y desarrollamos sitios web funcionales, atractivos y optimizados para tu negocio.",
-            },
+              description: "Producimos contenido que cuenta historias y genera engagement real.",
+              image: "/gatito.jpg"
+            }
           ].map((service, i) => (
             <div
               key={i}
-              className={`bg-accent rounded-2xl p-6 shadow-retro transition-all hover:translate-y-[-4px] hover:shadow-lg w-full max-w-sm animate-scaleIn ${i === 3 ? "lg:col-start-2" : ""}`}
+              className="bg-accent rounded-2xl p-4 shadow-retro transition-all hover:translate-y-[-4px] hover:shadow-lg w-full max-w-sm group"
               style={{ animationDelay: `${i * 100}ms` }}
             >
-              <service.icon className="mb-4 h-12 w-12 text-primary" />
-              <h3 className="mb-2 text-xl font-display font-bold text-primary">{service.title}</h3>
-              <p className="text-primary-dark">{service.description}</p>
+              <div className="relative h-40 w-full mb-4 overflow-hidden rounded-xl">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <service.icon className="h-6 w-6 text-primary mb-2" />
+              <h3 className="text-lg font-display font-bold text-primary mb-2">{service.title}</h3>
+              <p className="text-primary-dark text-sm">{service.description}</p>
             </div>
           ))}
+          
+          {/* Segunda fila: 2 tarjetas centradas */}
+          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-3xl mx-auto">
+            {[
+              {
+                title: "Gestión de Ads",
+                icon: Target,
+                description: "Campañas, influencers y medios. Creatividad de impacto aplicada al mundo digital y offline.",
+                image: "/gatito.jpg"
+              },
+              {
+                title: "Desarrollo Web",
+                icon: Globe,
+                description: "Diseñamos y desarrollamos sitios web funcionales, atractivos y optimizados para tu negocio.",
+                image: "/gatito.jpg"
+              }
+            ].map((service, i) => (
+              <div
+                key={i + 3}
+                className="bg-accent rounded-2xl p-4 shadow-retro transition-all hover:translate-y-[-4px] hover:shadow-lg w-full max-w-sm group"
+                style={{ animationDelay: `${(i + 3) * 100}ms` }}
+              >
+                <div className="relative h-40 w-full mb-4 overflow-hidden rounded-xl">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+                <service.icon className="h-6 w-6 text-primary mb-2" />
+                <h3 className="text-lg font-display font-bold text-primary mb-2">{service.title}</h3>
+                <p className="text-primary-dark text-sm">{service.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -162,12 +238,11 @@ export default function Home() {
       <section className="container mx-auto mt-16 sm:mt-32 px-6">
         <div className="bg-accent rounded-3xl p-8 sm:p-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-16">
-            <div className="animate-float order-2 sm:order-1">
+            <div className="animate-float order-2 sm:order-1 relative h-[400px]">
               <Image
-                src="/placeholder.svg?height=400&width=400"
+                src="/gatito.jpg"
                 alt="Isabella - Fundadora de Trashpanda"
-                width={400}
-                height={400}
+                fill
                 className="rounded-2xl object-cover shadow-retro"
               />
             </div>
@@ -264,7 +339,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
+    </motion.div>
   )
 }
 
