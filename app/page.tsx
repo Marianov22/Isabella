@@ -47,7 +47,7 @@ export default function Home() {
         <div className="flex items-center gap-4 w-full sm:w-auto justify-between">
           <div className="flex items-center gap-3">
             <Image 
-              src="/logo.png" 
+              src="/gatito.jpg" 
               alt="TrashPanda Logo" 
               width={35} 
               height={35}
@@ -90,24 +90,31 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="container mx-auto mt-6 sm:mt-16 px-4 sm:px-6">
-        <GlassCard className="p-6 sm:p-12">
+      <section className="container mx-auto mt-4 sm:mt-8 px-4 sm:px-6">
+        <GlassCard className="p-4 sm:p-8">
           <motion.div
             variants={staggerContainer}
-            className="flex flex-col sm:flex-row items-center justify-between gap-8"
+            className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4 sm:gap-6"
           >
             <motion.div
               variants={fadeIn}
-              className="max-w-2xl text-center sm:text-left"
+              className="max-w-xl text-center sm:text-left relative"
             >
-              <h1 className="mb-4 sm:mb-6 font-display text-3xl sm:text-6xl font-bold leading-tight">
+              <h1 className="mb-3 sm:mb-4 font-display text-3xl sm:text-6xl font-bold leading-tight">
+                <Image 
+                  src="/estrella.jpg" 
+                  alt="Decorative star" 
+                  width={60} 
+                  height={60}
+                  className="absolute -top-8 -left-12 sm:-left-16 animate-spin-slow"
+                />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary to-primary-dark">
                   Impulsá tu negocio,
                   <br className="hidden sm:block" />
                   sin chamuyo
                 </span>
               </h1>
-              <p className="mb-6 sm:mb-8 text-base sm:text-xl text-primary-dark">
+              <p className="mb-4 sm:mb-6 text-base sm:text-xl text-primary-dark">
                 Estrategia y creatividad hechos a tu medida.
               </p>
               <ClientButton className="bg-[#7A8B69] text-white hover:bg-primary-dark shadow-retro font-display text-base sm:text-lg w-full sm:w-auto">
@@ -115,7 +122,7 @@ export default function Home() {
               </ClientButton>
             </motion.div>
 
-            <div className="relative h-64 w-64 sm:h-96 sm:w-96">
+            <div className="relative w-full sm:w-[600px] h-[250px] sm:h-[400px]">
               <Image
                 src="/gatito.jpg"
                 alt="Hero Image"
