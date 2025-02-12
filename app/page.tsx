@@ -1,19 +1,34 @@
 "use client"
 import Image from "next/image"
 import { ClientButton } from "@/components/ui/client-button"
-import { Instagram, Linkedin, MessageSquare, Palette, Camera, Target, Globe } from "lucide-react"
+import { Instagram, Linkedin, MessageSquare, Palette, Camera, Target, Globe, Menu, X } from "lucide-react"
 import { ContactButton } from "@/components/ui/contact-button"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { GlassCard } from "@/components/ui/glass-card"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { fadeIn, staggerContainer } from "@/lib/animations"
+import { useState, useEffect } from "react"
 
 export default function Home() {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1
   })
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isMenuOpen])
 
   return (
     <motion.div
@@ -27,67 +42,56 @@ export default function Home() {
       </div>
 
       {/* Navigation */}
-      <nav className="container mx-auto flex flex-col sm:flex-row items-center justify-between p-6">
-        <div className="flex items-center gap-4">
-          <Image 
-            src="/logo.png" 
-            alt="TrashPanda Logo" 
-            width={40} 
-            height={40}
-            className="animate-float"
-          />
-          <span className="font-display font-bold text-xl text-primary">TrashPanda</span>
-        </div>
-        <div className="flex flex-wrap justify-center sm:justify-start gap-6 mb-4 sm:mb-0">
-          {["INICIO", "SERVICIOS", "PORTAFOLIO", "BLOG", "CONTACTO"].map((item, index) => (
-            <a
-              key={item}
-              href="#"
-              className="text-primary hover:text-secondary-dark transition-colors duration-300 font-display font-bold animate-slideIn"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              {item}
-            </a>
-          ))}
+      <nav className="container mx-auto flex flex-col sm:flex-row items-center justify-between p-4 sm:p-6 relative">
+        {/* Logo y Nombre */}
+        <div className="flex items-center gap-4 w-full sm:w-auto justify-between">
+          <div className="flex items-center gap-3">
+            <Image 
+              src="/logo.png" 
+              alt="TrashPanda Logo" 
+              width={35} 
+              height={35}
+              className="animate-float"
+            />
+            <span className="font-display font-bold text-lg sm:text-xl text-primary">TrashPanda</span>
+          </div>
+          {/* Botón de menú móvil */}
+          <button className="sm:hidden text-primary" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
 
-        <div className="flex items-center gap-6">
-          <a
-            href="https://www.instagram.com/trashpandaok/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:animate-wiggle"
-          >
-            <Instagram className="h-6 w-6 text-primary hover:text-secondary-dark transition-colors duration-300" />
-          </a>
-          <a
-            href="https://www.tiktok.com/@trashpanda.ok"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:animate-wiggle"
-          >
-            <svg
-              className="h-6 w-6 text-primary hover:text-secondary-dark transition-colors duration-300"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 2v12.5a4.5 4.5 0 1 1-4.5-4.5h4.5" />
-              <path d="M12 2a7 7 0 0 0 7 7" />
-            </svg>
-          </a>
-          <ClientButton className="bg-primary text-white hover:bg-primary-dark shadow-retro font-display animate-scaleIn">
-            COTIZAR
-          </ClientButton>
+        {/* Menú móvil */}
+        <div className={`${
+          isMenuOpen ? 'flex' : 'hidden'
+        } sm:flex flex-col sm:flex-row items-center w-full sm:w-auto gap-6 mt-4 sm:mt-0 absolute sm:relative top-full sm:top-auto left-0 bg-white sm:bg-transparent p-4 sm:p-0 shadow-lg sm:shadow-none z-50`}>
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto">
+            {["INICIO", "SERVICIOS", "PORTAFOLIO", "BLOG", "CONTACTO"].map((item, index) => (
+              <a
+                key={item}
+                href="#"
+                className="text-primary hover:text-secondary-dark transition-colors duration-300 font-display font-bold animate-slideIn w-full sm:w-auto text-center"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                {item}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-6 mt-4 sm:mt-0">
+            <a href="https://www.instagram.com/trashpandaok/" target="_blank" rel="noopener noreferrer">
+              <Instagram className="h-5 w-5 text-primary hover:text-secondary-dark transition-colors duration-300" />
+            </a>
+            <ClientButton className="bg-primary text-white hover:bg-primary-dark shadow-retro font-display text-sm w-full sm:w-auto">
+              COTIZAR
+            </ClientButton>
+          </div>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="container mx-auto mt-8 sm:mt-16 px-6">
-        <GlassCard className="p-8 sm:p-12">
+      <section className="container mx-auto mt-6 sm:mt-16 px-4 sm:px-6">
+        <GlassCard className="p-6 sm:p-12">
           <motion.div
             variants={staggerContainer}
             className="flex flex-col sm:flex-row items-center justify-between gap-8"
@@ -96,17 +100,17 @@ export default function Home() {
               variants={fadeIn}
               className="max-w-2xl text-center sm:text-left"
             >
-              <h1 className="mb-6 font-display text-4xl sm:text-6xl font-bold">
+              <h1 className="mb-4 sm:mb-6 font-display text-3xl sm:text-6xl font-bold leading-tight">
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary to-primary-dark">
                   Impulsá tu negocio,
-                  <br />
+                  <br className="hidden sm:block" />
                   sin chamuyo
                 </span>
               </h1>
-              <p className="mb-8 text-lg sm:text-xl text-primary-dark">
+              <p className="mb-6 sm:mb-8 text-base sm:text-xl text-primary-dark">
                 Estrategia y creatividad hechos a tu medida.
               </p>
-              <ClientButton className="bg-[#7A8B69] text-white hover:bg-primary-dark shadow-retro font-display text-lg">
+              <ClientButton className="bg-[#7A8B69] text-white hover:bg-primary-dark shadow-retro font-display text-base sm:text-lg w-full sm:w-auto">
                 Descubrinos
               </ClientButton>
             </motion.div>

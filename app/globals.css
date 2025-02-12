@@ -108,6 +108,26 @@
   .hover-card {
     @apply transition-all duration-300 hover:scale-105 hover:shadow-xl;
   }
+  
+  .smooth-mobile-menu {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .mobile-menu-overlay {
+    @apply fixed inset-0 bg-black/20 backdrop-blur-sm;
+    z-index: 40;
+  }
+  
+  .mobile-shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  .hero-gradient {
+    background: linear-gradient(135deg, #F5B56D 0%, #85A17E 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 .smooth-scroll {
@@ -136,5 +156,22 @@
 /* Cursor personalizado */
 .clickable {
   cursor: url('/mini-logo-click.png'), pointer;
+}
+
+/* Mejorar el espaciado en móvil */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .glass-effect {
+    padding: 1.5rem;
+  }
+  
+  .neo-button {
+    width: 100%;
+    text-align: center;
+  }
 }
 
