@@ -248,13 +248,14 @@ export default function Home() {
       {/* About Isabella Section */}
       <section className="container mx-auto mt-16 sm:mt-32 px-6">
         <div className="bg-accent rounded-3xl p-8 sm:p-12">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-16">
-            <div className="animate-float order-2 sm:order-1 relative h-[400px]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-16 items-center">
+            <div className="animate-float order-2 sm:order-1 relative w-full aspect-square max-w-[500px] mx-auto">
               <Image
-                src="/gatito.jpg"
+                src="/isa.jpg"
                 alt="Isabella - Fundadora de Trashpanda"
                 fill
                 className="rounded-2xl object-cover shadow-retro"
+                style={{ objectPosition: 'center 30%' }}
               />
             </div>
             <div className="animate-fadeIn order-1 sm:order-2">
