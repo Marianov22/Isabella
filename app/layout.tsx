@@ -4,6 +4,7 @@ import localFont from "next/font/local"
 import type React from "react"
 import { Analytics } from '@vercel/analytics/react'
 import { AOSProvider } from "@/components/providers/aos-provider"
+import { EasterEgg } from "@/components/ui/easter-egg"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -43,6 +44,7 @@ export default function RootLayout({
         <AOSProvider>
           {children}
         </AOSProvider>
+        <EasterEgg />
         <Analytics />
       </body>
     </html>
