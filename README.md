@@ -1,3 +1,5 @@
+Arreglar distancia de tarjeta de isabella para que no sea vea cuando apreto contactanos
+
 
 
 
