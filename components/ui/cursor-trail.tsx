@@ -2,11 +2,16 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 
+interface TrailPoint {
+  x: number
+  y: number
+}
+
 export const CursorTrail = () => {
-  const [trail, setTrail] = useState([])
+  const [trail, setTrail] = useState<TrailPoint[]>([])
   
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       setTrail(prev => [...prev, { x: e.clientX, y: e.clientY }].slice(-5))
     }
     
