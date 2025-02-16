@@ -1,7 +1,8 @@
 Arreglar distancia de tarjeta de isabella para que no sea vea cuando apreto contactanos
-
-
-
+Dropdown estetica
+Traduccion automatica
+Tipografia y colores
+Fondo con textura? 
 
 
 
