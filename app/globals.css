@@ -12,20 +12,20 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
+    --background: 201 100% 8%; /* #001D29 */
+    --foreground: 34 77% 69%; /* #F5B56D */
+    --card: 201 94% 22%; /* #024C6F */
+    --card-foreground: 34 77% 69%; /* #F5B56D */
+    --popover: 201 100% 8%; /* #001D29 */
+    --popover-foreground: 34 77% 69%; /* #F5B56D */
+    --primary: 201 100% 8%; /* #001D29 */
+    --primary-foreground: 34 77% 69%; /* #F5B56D */
+    --secondary: 108 14% 56%; /* #85A17E */
+    --secondary-foreground: 34 77% 69%; /* #F5B56D */
+    --accent: 34 77% 69%; /* #F5B56D */
+    --accent-foreground: 201 100% 8%; /* #001D29 */
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
@@ -41,7 +41,7 @@
   }
   body {
     @apply bg-background text-foreground font-sans;
-    cursor: url('/mini-logo.png'), auto;
+    cursor: url('/Panda.png'), auto;
   }
 }
 
@@ -60,7 +60,7 @@
 
 .nav-header {
   background-color: #FFFBF7;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2.5rem;
 }
 
 .main-heading {
@@ -98,7 +98,7 @@
 
 @layer utilities {
   .glass-effect {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
+    @apply bg-primary-dark/10 backdrop-blur-md border border-accent/20;
   }
   
   .text-gradient {
@@ -148,6 +148,15 @@
   .hover\:animate-wiggle:hover {
     animation: wiggle 0.3s ease-in-out;
   }
+  
+  .animated-stroke {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .animated-stroke svg {
+    pointer-events: none;
+  }
 }
 
 .smooth-scroll {
@@ -175,7 +184,7 @@
 
 /* Cursor personalizado */
 .clickable {
-  cursor: url('/mini-logo-click.png'), pointer;
+  cursor: url('/Panda.png'), pointer;
 }
 
 /* Mejorar el espaciado en móvil */
@@ -193,5 +202,31 @@
     width: 100%;
     text-align: center;
   }
+}
+
+@keyframes drawStroke {
+  0% {
+    stroke-dashoffset: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animated-stroke path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+/* Actualizamos el espaciado de la navegación */
+.nav-header {
+  background-color: #FFFBF7;
+  padding: 1.5rem 2.5rem;
+}
+
+/* Y agregamos más espacio en el contenedor de navegación */
+nav.container {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 

@@ -1,14 +1,14 @@
 "use client"
 import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
 
-export const GlassCard = ({ children, className = "" }) => {
+export function GlassCard({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className={`glass-effect p-6 rounded-2xl ${className}`}
-    >
+    <div className={cn(
+      "rounded-3xl bg-primary-dark/30 backdrop-blur-md border border-accent/10 shadow-lg",
+      className
+    )}>
       {children}
-    </motion.div>
+    </div>
   )
 } 

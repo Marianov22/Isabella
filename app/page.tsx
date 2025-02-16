@@ -9,6 +9,7 @@ import { GlassCard } from "@/components/ui/glass-card"
 import { AnimatedButton } from "@/components/ui/animated-button"
 import { fadeIn, staggerContainer } from "@/lib/animations"
 import { useState, useEffect } from "react"
+import { AnimatedStroke } from "@/components/ui/animated-stroke"
 
 export default function Home() {
   const [ref, inView] = useInView({
@@ -17,6 +18,11 @@ export default function Home() {
   })
 
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formStatus, setFormStatus] = useState<{
+    type: 'success' | 'error' | null,
+    message: string
+  }>({ type: null, message: '' })
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -30,33 +36,40 @@ export default function Home() {
     }
   }, [isMenuOpen])
 
+  const resetForm = (form: HTMLFormElement) => {
+    form.reset()
+    setTimeout(() => {
+      setFormStatus({ type: null, message: '' })
+    }, 5000)
+  }
+
   return (
     <motion.div
       initial="initial"
       animate="animate"
-      className="min-h-screen bg-background"
+      className="min-h-screen bg-primary"
     >
       {/* Announcement Bar */}
-      <div className="bg-primary text-white py-2 text-center text-xs sm:text-sm animate-fadeIn">
-        INNOVACIÓN DIGITAL A TU ALCANCE
+      <div className="bg-primary-dark text-white py-2 text-center text-xs sm:text-sm animate-fadeIn">
+        CREATIVIDAD CON PROPÓSITO
       </div>
 
       {/* Navigation */}
       <nav className="container mx-auto flex flex-col sm:flex-row items-center justify-between p-4 sm:p-6 relative">
         {/* Logo y Nombre */}
-        <div className="flex items-center gap-4 w-full sm:w-auto justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center gap-6 w-full sm:w-auto justify-between">
+          <div className="flex items-center gap-4">
             <Image 
-              src="/gatito.jpg" 
-              alt="TrashPanda Logo" 
-              width={35} 
-              height={35}
+              src="/Panda.png" 
+              alt="TrashPanda Studio Logo" 
+              width={50} 
+              height={50}
               className="animate-float"
             />
-            <span className="font-display font-bold text-lg sm:text-xl text-primary">TrashPanda</span>
+            <span className="font-display font-bold text-xl sm:text-2xl text-accent">TrashPanda Studio</span>
           </div>
           {/* Botón de menú móvil */}
-          <button className="sm:hidden text-primary" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <button className="sm:hidden text-accent" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -64,13 +77,13 @@ export default function Home() {
         {/* Menú móvil */}
         <div className={`${
           isMenuOpen ? 'flex' : 'hidden'
-        } sm:flex flex-col sm:flex-row items-center w-full sm:w-auto gap-6 mt-4 sm:mt-0 absolute sm:relative top-full sm:top-auto left-0 bg-white sm:bg-transparent p-4 sm:p-0 shadow-lg sm:shadow-none z-50`}>
+        } sm:flex flex-col sm:flex-row items-center w-full sm:w-auto gap-6 mt-4 sm:mt-0 absolute sm:relative top-full sm:top-auto left-0 bg-primary-dark sm:bg-transparent p-4 sm:p-0 shadow-lg sm:shadow-none z-50`}>
           <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto">
             {["INICIO", "SERVICIOS", "PORTAFOLIO", "BLOG", "CONTACTO"].map((item, index) => (
               <a
                 key={item}
                 href="#"
-                className="text-primary hover:text-secondary-dark transition-colors duration-300 font-display font-bold animate-slideIn w-full sm:w-auto text-center"
+                className="text-accent hover:text-secondary transition-colors duration-300 font-display font-bold animate-slideIn w-full sm:w-auto text-center"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {item}
@@ -80,7 +93,7 @@ export default function Home() {
 
           <div className="flex items-center gap-6 mt-4 sm:mt-0">
             <a href="https://www.instagram.com/trashpandaok/" target="_blank" rel="noopener noreferrer">
-              <Instagram className="h-5 w-5 text-primary hover:text-secondary-dark transition-colors duration-300" />
+              <Instagram className="h-5 w-5 text-accent hover:text-secondary transition-colors duration-300" />
             </a>
             <ClientButton className="bg-primary text-white hover:bg-primary-dark shadow-retro font-display text-sm w-full sm:w-auto">
               COTIZAR
@@ -100,21 +113,14 @@ export default function Home() {
               variants={fadeIn}
               className="max-w-xl text-center sm:text-left relative"
             >
-              <h1 className="mb-3 sm:mb-4 font-display text-3xl sm:text-6xl font-bold leading-tight">
-                <Image 
-                  src="/estrella.jpg" 
-                  alt="Decorative star" 
-                  width={60} 
-                  height={60}
-                  className="absolute -top-8 -left-12 sm:-left-16 animate-spin-slow"
-                />
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary to-primary-dark">
-                  Impulsá tu negocio,
-                  <br className="hidden sm:block" />
+              <h1 className="mb-3 sm:mb-4 font-display text-3xl sm:text-6xl font-bold leading-tight text-accent">
+                Impulsá tu negocio,
+                <br className="hidden sm:block" />
+                <AnimatedStroke>
                   sin chamuyo
-                </span>
+                </AnimatedStroke>
               </h1>
-              <p className="mb-4 sm:mb-6 text-base sm:text-xl text-primary-dark">
+              <p className="mb-4 sm:mb-6 text-base sm:text-xl text-secondary-light">
                 Estrategia y creatividad hechos a tu medida.
               </p>
               <ClientButton className="bg-[#7A8B69] text-white hover:bg-primary-dark shadow-retro font-display text-base sm:text-lg w-full sm:w-auto">
@@ -135,92 +141,6 @@ export default function Home() {
         </GlassCard>
       </section>
 
-      {/* Services Section */}
-      <section className="container mx-auto mt-16 sm:mt-32 px-6">
-        <h2 className="mb-12 text-center font-display text-3xl sm:text-4xl font-bold text-primary animate-fadeIn">
-          Nuestros Servicios
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center max-w-6xl mx-auto">
-          {/* Primera fila: 3 tarjetas */}
-          {[
-            {
-              title: "Estrategias de comunicación",
-              icon: MessageSquare,
-              description: "Diseñamos planes efectivos para que tu marca diga lo que realmente le importa al target.",
-              image: "/gatito.jpg"
-            },
-            {
-              title: "Branding",
-              icon: Palette,
-              description: "Creamos identidades que conectan con tu audiencia y destacan en el mercado.",
-              image: "/gatito.jpg"
-            },
-            {
-              title: "Contenido",
-              icon: Camera,
-              description: "Producimos contenido que cuenta historias y genera engagement real.",
-              image: "/gatito.jpg"
-            }
-          ].map((service, i) => (
-            <div
-              key={i}
-              className="bg-accent rounded-2xl p-4 shadow-retro transition-all hover:translate-y-[-4px] hover:shadow-lg w-full max-w-sm group"
-              style={{ animationDelay: `${i * 100}ms` }}
-            >
-              <div className="relative h-40 w-full mb-4 overflow-hidden rounded-xl">
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-              <service.icon className="h-6 w-6 text-primary mb-2" />
-              <h3 className="text-lg font-display font-bold text-primary mb-2">{service.title}</h3>
-              <p className="text-primary-dark text-sm">{service.description}</p>
-            </div>
-          ))}
-          
-          {/* Segunda fila: 2 tarjetas centradas */}
-          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-3xl mx-auto">
-            {[
-              {
-                title: "Gestión de Ads",
-                icon: Target,
-                description: "Campañas, influencers y medios. Creatividad de impacto aplicada al mundo digital y offline.",
-                image: "/gatito.jpg"
-              },
-              {
-                title: "Desarrollo Web",
-                icon: Globe,
-                description: "Diseñamos y desarrollamos sitios web funcionales, atractivos y optimizados para tu negocio.",
-                image: "/gatito.jpg"
-              }
-            ].map((service, i) => (
-              <div
-                key={i + 3}
-                className="bg-accent rounded-2xl p-4 shadow-retro transition-all hover:translate-y-[-4px] hover:shadow-lg w-full max-w-sm group"
-                style={{ animationDelay: `${(i + 3) * 100}ms` }}
-              >
-                <div className="relative h-40 w-full mb-4 overflow-hidden rounded-xl">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
-                <service.icon className="h-6 w-6 text-primary mb-2" />
-                <h3 className="text-lg font-display font-bold text-primary mb-2">{service.title}</h3>
-                <p className="text-primary-dark text-sm">{service.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Who We Are Section */}
       <section className="container mx-auto mt-16 sm:mt-32 px-6">
         <div className="bg-primary rounded-3xl p-8 sm:p-12">
@@ -229,7 +149,7 @@ export default function Home() {
           </h2>
           <div className="max-w-3xl mx-auto text-center">
             <p className="mb-6 text-lg text-accent">
-              En TrashPanda desafiamos lo obvio. Somos un equipo de mentes inquietas, apasionadas por las marcas con
+              En TrashPanda Studio desafiamos lo obvio. Somos un equipo de mentes inquietas, apasionadas por las marcas con
               personalidad y comprometidas con estrategias que combinan creatividad e impacto real.
             </p>
             <p className="mb-6 text-lg text-accent">
@@ -241,6 +161,73 @@ export default function Home() {
               Cada proyecto es único y su estrategia debe reflejarlo.
             </p>
             <ContactButton />
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="container mx-auto mt-16 sm:mt-32 px-6">
+        <h2 className="mb-8 text-center font-display text-3xl sm:text-4xl font-bold text-secondary-light animate-fadeIn">
+          Nuestros Servicios
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center max-w-6xl mx-auto">
+          {/* Primera fila: 3 tarjetas */}
+          {[
+            {
+              title: "Estrategias de comunicación",
+              icon: MessageSquare,
+              description: "Diseñamos planes efectivos para que tu marca diga lo que realmente le importa al target."
+            },
+            {
+              title: "Branding",
+              icon: Palette,
+              description: "Creamos identidades que conectan con tu audiencia y destacan en el mercado."
+            },
+            {
+              title: "Contenido",
+              icon: Camera,
+              description: "Producimos contenido que cuenta historias y genera engagement real."
+            }
+          ].map((service, i) => (
+            <div
+              key={i}
+              className="bg-accent/90 backdrop-blur-sm rounded-3xl p-8 shadow-retro transition-all 
+              hover:translate-y-[-4px] hover:shadow-lg w-full max-w-sm group border border-accent/20
+              hover:bg-accent"
+              style={{ animationDelay: `${i * 100}ms` }}
+            >
+              <service.icon className="h-8 w-8 text-primary mb-4 group-hover:scale-110 transition-transform" />
+              <h3 className="text-xl font-display font-bold text-primary mb-3">{service.title}</h3>
+              <p className="text-primary text-base leading-relaxed">{service.description}</p>
+            </div>
+          ))}
+          
+          {/* Segunda fila: 2 tarjetas */}
+          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-3xl mx-auto">
+            {[
+              {
+                title: "Gestión de Ads",
+                icon: Target,
+                description: "Campañas, influencers y medios. Creatividad de impacto aplicada al mundo digital y offline."
+              },
+              {
+                title: "Desarrollo Web",
+                icon: Globe,
+                description: "Diseñamos y desarrollamos sitios web funcionales, atractivos y optimizados para tu negocio."
+              }
+            ].map((service, i) => (
+              <div
+                key={i + 3}
+                className="bg-accent/90 backdrop-blur-sm rounded-3xl p-8 shadow-retro transition-all 
+                hover:translate-y-[-4px] hover:shadow-lg w-full max-w-sm group border border-accent/20
+                hover:bg-accent"
+                style={{ animationDelay: `${(i + 3) * 100}ms` }}
+              >
+                <service.icon className="h-8 w-8 text-primary mb-4 group-hover:scale-110 transition-transform" />
+                <h3 className="text-xl font-display font-bold text-primary mb-3">{service.title}</h3>
+                <p className="text-primary text-base leading-relaxed">{service.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -279,7 +266,7 @@ export default function Home() {
                   sino de contar historias que conecten y generen impacto.
                 </p>
                 <p className="font-display font-bold text-primary">
-                  TrashPanda nació para hacer marketing con sentido. Si buscás creatividad con propósito, estás en el
+                  TrashPanda Studio nació para hacer marketing con sentido. Si buscás creatividad con propósito, estás en el
                   lugar indicado.
                 </p>
               </div>
@@ -303,12 +290,215 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Contact Form Section */}
+      <section className="container mx-auto mt-16 sm:mt-32 px-6">
+        <div className="bg-accent/90 backdrop-blur-sm rounded-3xl p-8 sm:p-12 max-w-3xl mx-auto">
+          <h2 className="mb-8 text-center font-display text-3xl sm:text-4xl font-bold text-primary animate-fadeIn">
+            Contactanos
+          </h2>
+          <form className="space-y-6" onSubmit={async (e) => {
+            e.preventDefault()
+            setIsSubmitting(true)
+            setFormStatus({ type: null, message: '' })
+
+            const form = e.currentTarget
+            const formData = new FormData(form)
+            const data = {
+              name: formData.get('name'),
+              email: formData.get('email'),
+              phone: formData.get('phone'),
+              type: formData.get('type'),
+              message: formData.get('message')
+            }
+
+            try {
+              const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+              })
+
+              if (!response.ok) throw new Error('Error al enviar el mensaje')
+
+              setFormStatus({
+                type: 'success',
+                message: '¡Mensaje enviado correctamente! Te contactaremos pronto.'
+              })
+              resetForm(form)
+            } catch (error) {
+              setFormStatus({
+                type: 'error',
+                message: 'Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.'
+              })
+            } finally {
+              setIsSubmitting(false)
+            }
+          }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="name" className="block mb-2 text-primary font-display font-bold">
+                  Nombre
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  className="w-full px-4 py-3 rounded-xl bg-primary/10 border border-primary/20 
+                  focus:outline-none focus:ring-2 focus:ring-primary/20 text-primary"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="email" className="block mb-2 text-primary font-display font-bold">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  className="w-full px-4 py-3 rounded-xl bg-primary/10 border border-primary/20 
+                  focus:outline-none focus:ring-2 focus:ring-primary/20 text-primary"
+                  required
+                />
+              </div>
+            </div>
+            
+            <div>
+              <label htmlFor="phone" className="block mb-2 text-primary font-display font-bold">
+                Teléfono
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                className="w-full px-4 py-3 rounded-xl bg-primary/10 border border-primary/20 
+                focus:outline-none focus:ring-2 focus:ring-primary/20 text-primary"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="type" className="block mb-2 text-primary font-display font-bold">
+                Soy
+              </label>
+              <select
+                id="type"
+                name="type"
+                className="w-full px-4 py-3 rounded-xl bg-primary/10 border border-primary/20 
+                focus:outline-none focus:ring-2 focus:ring-primary/20 text-primary"
+                required
+              >
+                <option value="">Seleccionar...</option>
+                <option value="influencer">Influencer</option>
+                <option value="empresa">Empresa</option>
+                <option value="artistico">Proyecto artístico</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="message" className="block mb-2 text-primary font-display font-bold">
+                Mensaje
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={4}
+                className="w-full px-4 py-3 rounded-xl bg-primary/10 border border-primary/20 
+                focus:outline-none focus:ring-2 focus:ring-primary/20 text-primary resize-none"
+                required
+              ></textarea>
+            </div>
+
+            {formStatus.type && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className={`
+                  p-4 rounded-xl flex items-center justify-center gap-2
+                  ${formStatus.type === 'success' 
+                    ? 'bg-secondary/20 text-primary border border-secondary/30' 
+                    : 'bg-red-500/20 text-red-600 border border-red-500/30'
+                  }
+                `}
+              >
+                {formStatus.type === 'success' ? (
+                  <svg 
+                    className="w-5 h-5" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M5 13l4 4L19 7" 
+                    />
+                  </svg>
+                ) : (
+                  <svg 
+                    className="w-5 h-5" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M6 18L18 6M6 6l12 12" 
+                    />
+                  </svg>
+                )}
+                <p className="font-display">{formStatus.message}</p>
+              </motion.div>
+            )}
+
+            <div className="text-center">
+              <ClientButton 
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-primary text-white hover:bg-primary-dark shadow-retro 
+                font-display text-lg px-8 py-3 w-full sm:w-auto disabled:opacity-50
+                disabled:cursor-not-allowed transition-all duration-300"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle 
+                        className="opacity-25" 
+                        cx="12" 
+                        cy="12" 
+                        r="10" 
+                        stroke="currentColor" 
+                        strokeWidth="4"
+                      />
+                      <path 
+                        className="opacity-75" 
+                        fill="currentColor" 
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                      />
+                    </svg>
+                    Enviando...
+                  </span>
+                ) : (
+                  'Enviar mensaje'
+                )}
+              </ClientButton>
+            </div>
+          </form>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="mt-16 sm:mt-32 bg-primary py-12">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
-              <h3 className="mb-4 text-lg font-display font-bold text-white animate-fadeIn">TrashPanda</h3>
+              <h3 className="mb-4 text-lg font-display font-bold text-white animate-fadeIn">TrashPanda Studio</h3>
               <p className="text-accent">Estrategias hechas a medida, sin fórmulas vacías.</p>
             </div>
             <div>
@@ -347,7 +537,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-12 text-center">
-            <p className="text-accent">&copy; 2023 TrashPanda. Todos los derechos reservados.</p>
+            <p className="text-accent">&copy; 2025 TrashPanda Studio. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
